@@ -1,41 +1,47 @@
 package gameloop;
 
+
+import java.util.Arrays;
 import components.Entity;
 import javafx.animation.AnimationTimer;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 class TimerMethod extends AnimationTimer {
     private long lastTime = System.nanoTime();
     private int delay = 100;
+    private int stateDelay = 0;
     @Override
     public void handle(long now) {
 
         long time = System.nanoTime();
         int deltaTime = (int) ((time - lastTime) / 1000000);
 
-        Rectangle ghostHit = collidtion();
-        if(ghostHit != null) {
-            App.player.setFill(Color.GREEN);
-            // game over
-            stop();
+        App.pointLabel.setText(""+App.points+" Points");
+        App.livesLabel.setText(""+App.lives+" Lives");
+        App.stateLabel.setText(App.gameState);
+
+        if(App.gameState == "immortal" && stateDelay == 0) {
+            stateDelay = deltaTime + 500;
         }
-        
+        if(App.gameState == "power" && stateDelay == 0) {
+            stateDelay = deltaTime + 5000;
+        }
+        if(deltaTime > stateDelay) {
+            App.gameState = "normal";
+            stateDelay = 0;
+        }
 
-        
+
         if (deltaTime > delay) {
-            Entity[] objs = App.level.nextTo(App.level.scaleValue(App.player.getX()),
-            App.level.scaleValue(App.player.getY()));
-            Entity pos = App.level.position(App.level.scaleValue(App.player.getX()),
-            App.level.scaleValue(App.player.getY()));
+            Entity[] objs = App.level.nextTo(App.level.scaleValueX(App.player.getX()),
+            App.level.scaleValueY(App.player.getY()));
+            Entity pos = App.level.position(App.level.scaleValueX(App.player.getX()),
+            App.level.scaleValueY(App.player.getY()));
 
-            System.out.println(App.level.position(0, 0).tag());
-
-            if(pos.tag() == "Coin") {
-                pos.pickUp();
-            }
-            if(pos.tag() == "Power") {
-                pos.pickUp();
+            Collision.onCollisionEnter(App.player, pos);
+            for(int i = 0; i < App.ghosts.size(); i++) {
+                if(Arrays.compare(App.player.getPos(), App.ghosts.get(i).getPos()) == 0) {
+                    Collision.onCollisionEnter(App.player, App.ghosts.get(i));
+                }
             }
 
             if(App.dia == 'W' && objs[0].tag() != "Wall") {
@@ -49,15 +55,5 @@ class TimerMethod extends AnimationTimer {
             }
             delay = deltaTime + 100;
         }
-    }
-
-    private Rectangle collidtion() {
-        for(int i = 0; i < App.ghosts.size(); i++) {
-            Rectangle g = App.ghosts.get(i);
-            if(App.player.getBoundsInParent().intersects(g.getBoundsInParent())) {
-                 return g;
-            }
-        }
-        return null;
     }
 }

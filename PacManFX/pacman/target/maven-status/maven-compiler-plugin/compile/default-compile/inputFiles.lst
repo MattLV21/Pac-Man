@@ -1,7 +1,9 @@
-/Users/mattlv21/Documents/Coding/Java/PacManFX/pacman/src/main/java/components/Collider.java
-/Users/mattlv21/Documents/Coding/Java/PacManFX/pacman/src/main/java/gameloop/App.java
-/Users/mattlv21/Documents/Coding/Java/PacManFX/pacman/src/main/java/map/levelLoarder.java
-/Users/mattlv21/Documents/Coding/Java/PacManFX/pacman/src/main/java/components/Entity.java
-/Users/mattlv21/Documents/Coding/Java/PacManFX/pacman/src/main/java/components/Wall.java
-/Users/mattlv21/Documents/Coding/Java/PacManFX/pacman/src/main/java/components/Component.java
-/Users/mattlv21/Documents/Coding/Java/PacManFX/pacman/src/main/java/gameloop/TimerMethod.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/components/Entity.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/map/levelHandler.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/gameloop/App.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/components/Component.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/gameloop/Collision.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/gameloop/TimerMethod.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/gameloop/EventHandler.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/components/Rec.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/components/Sprite.java

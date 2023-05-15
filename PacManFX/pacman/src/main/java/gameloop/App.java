@@ -3,32 +3,53 @@ package gameloop;
 import java.util.ArrayList;
 
 import components.Entity;
+import components.Rec;
 import javafx.animation.AnimationTimer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import map.levelLoarder;
+import map.levelHandler;
  
 public class App extends Application {
 
-    public static int size = 20;
-    public static levelLoarder level;
+    public static int size = 16;
+    public static int offsetTop = 50;
+    public static int offsetBottom = 50;
+    public static levelHandler level;
 
     public static char dia = ' ';
-    public static Rectangle player = new Rectangle(size, size, size, size);
-    public Rectangle ghost = new Rectangle(0, 150, 25, 25);
+    public static Entity player = new Entity(size, size+offsetTop);
+    public static Entity ghost1 = new Entity(0, 150+offsetTop);
 
-    public static ArrayList<Rectangle> ghosts = new ArrayList<>();
+    public static ArrayList<Entity> ghosts = new ArrayList<>();
+
+    public static Scene scene;
+    public static AnimationTimer update;
+
+    public static String gameState = "normal";
+    public static int points = 0;
+    public static int lives = 3;
+
+    public static Label pointLabel = new Label(""+points+" Points");
+    public static Label livesLabel = new Label(""+lives+" Lives");
+    public static Label stateLabel = new Label(gameState);
 
     @Override
     public void start(Stage primaryStage) {
-        level = new levelLoarder(size);
+        player.setSprite(new Rec(player, size));
+        player.setTag("Player");
+
+        ghost1.setSprite(new Rec(ghost1, size));
+        ghost1.setTag("Player");
+
+        ghosts.add(ghost1);
+
+        level = new levelHandler(size);
         level.fillLevel();
-        
         
         Group root = new Group();
 
@@ -37,37 +58,37 @@ public class App extends Application {
                 root.getChildren().add(level.getLevel()[i][j].render());
             }
         }
-        root.getChildren().add(player);
+        root.getChildren().add(player.render());
         // ghosts.add(ghost);
         // root.getChildren().add(ghost);
         
+        root.getChildren().add(pointLabel);
+        root.getChildren().add(livesLabel);
+        root.getChildren().add(stateLabel);
 
-        /*
-        Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-        Scene scene = new Scene(root);
-        */
 
-        AnimationTimer loop = new TimerMethod();
+        update = new TimerMethod();
         
-        Scene scene = new Scene(root, size*level.getLevel()[0].length, size*level.getLevel().length);
+        scene = new Scene(root, size*level.getLevel()[0].length,
+        size*level.getLevel().length+offsetTop+offsetBottom, Color.BLACK);
 
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            Entity[] objs = level.nextTo(level.scaleValue(player.getX()),
-            level.scaleValue(player.getY()));
-
-            if(key.getCode() == KeyCode.W && objs[0].tag() != "Wall") {
-                dia = 'W';
-            } else if(key.getCode() == KeyCode.S && objs[2].tag() != "Wall") {
-                dia = 'S';
-            } else if(key.getCode() == KeyCode.A && objs[3].tag() != "Wall") {
-                dia = 'A';
-            } else if(key.getCode() == KeyCode.D && objs[1].tag() != "Wall") {
-                dia = 'D';
-            }
-        });
-
+        EventHandler.addMyEvents();
+        pointLabel.setTranslateX((scene.getWidth()/2)-(pointLabel.getWidth()));
+        pointLabel.setTranslateY(0);
+        pointLabel.setTextFill(Color.WHITE);
+        pointLabel.setFont(new Font("Arial", 30));
         
-        loop.start();
+        livesLabel.setTranslateX(0);
+        livesLabel.setTranslateY(offsetTop/2);
+        livesLabel.setTextFill(Color.WHITE);
+        livesLabel.setFont(new Font("Arial", 20));
+
+        stateLabel.setTranslateX((scene.getWidth()/2)-(stateLabel.getLayoutX()));
+        stateLabel.setTranslateY(scene.getHeight()-offsetBottom);
+        stateLabel.setTextFill(Color.WHITE);
+        stateLabel.setFont(new Font("Arial", 30));
+
+        update.start();
         primaryStage.setTitle("Pac-Man");
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -7,11 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner; // Import the Scanner class to read text files
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 import components.Entity;
+import components.Rec;
+import gameloop.App;
 
-public class levelLoarder {
+public class levelHandler {
 
     private Entity[][] level;
     private static char[] _egdeCase = {'#', '#', '#', '#'};
@@ -19,7 +20,7 @@ public class levelLoarder {
 
     private int size;
 
-    public levelLoarder(int size) {
+    public levelHandler(int size) {
         try {
             File myObj = new File("src/main/java/map/level.txt");
             Scanner myReader = new Scanner(myObj);
@@ -48,30 +49,32 @@ public class levelLoarder {
     private Entity getEntityType(int x, int y) {
         char current = data.get(y).charAt(loopingX(x));
         
-        Rectangle rec = new Rectangle(x*this.size, y*this.size, this.size, this.size);
-        rec.setFill(Color.GRAY);
+        Entity entity = new Entity(x*this.size, y*this.size+App.offsetTop);
+        Rec rec = new Rec(entity, size);
         String tag = "";
-        rec.setFill(Color.WHITE);
+        rec.setColor(Color.WHITE);
         if (current == '-') {
-            rec.setFill(Color.BLACK);
+            rec.setColor(Color.GRAY);
         }
         else if (current == 'c') {
             tag = "Coin";
-            rec.setFill(Color.YELLOW);
+            rec.setColor(Color.YELLOW);
         } else if (current == 'p') {
             tag = "Power";
-            rec.setFill(Color.PINK);
+            rec.setColor(Color.PINK);
         } else {
             char[] borders = bordering(loopingX(x), y);
             tag = "Wall";
             if (Arrays.compare(borders, _egdeCase) == 0) {
                 // char[] egdes = egdes(x, y, data);
-                rec.setFill(Color.GREEN);
+                rec.setColor(Color.GREEN);
             } else {
-                rec.setFill(Color.BLUE);
+                rec.setColor(Color.BLUE);
             }
         }
-        return new Entity(rec, tag);
+        entity.setTag(tag);
+        entity.setSprite(rec);
+        return entity;
     }
 
     private char[] bordering(int x, int y) {
@@ -113,8 +116,12 @@ public class levelLoarder {
         }
     }
 
-    public int scaleValue(double n) {
-        return (int) n/size;
+    public int scaleValueX(double x) {
+        return (int) x/(size);
+    }
+    public int scaleValueY(double y) {
+        // System.out.println("y: " + y + " scaled: " + (int) (y-App.offsetTop)/size);
+        return (int) (y-App.offsetTop)/size;
     }
 
     public Entity position(int x, int y) {
