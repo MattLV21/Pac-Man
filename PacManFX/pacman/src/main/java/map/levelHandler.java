@@ -9,7 +9,7 @@ import java.util.Scanner; // Import the Scanner class to read text files
 import javafx.scene.paint.Color;
 
 import components.Entity;
-import components.Rec;
+import components.Sprite;
 import gameloop.App;
 
 public class levelHandler {
@@ -50,11 +50,11 @@ public class levelHandler {
         char current = data.get(y).charAt(loopingX(x));
         
         Entity entity = new Entity(x*this.size, y*this.size+App.offsetTop);
-        Rec rec = new Rec(entity, size);
+        Sprite rec = new Sprite(entity, size);
         String tag = "";
         rec.setColor(Color.WHITE);
         if (current == '-') {
-            rec.setColor(Color.GRAY);
+            rec.setColor(Color.WHITE);
         }
         else if (current == 'c') {
             tag = "Coin";
@@ -120,7 +120,6 @@ public class levelHandler {
         return (int) x/(size);
     }
     public int scaleValueY(double y) {
-        // System.out.println("y: " + y + " scaled: " + (int) (y-App.offsetTop)/size);
         return (int) (y-App.offsetTop)/size;
     }
 

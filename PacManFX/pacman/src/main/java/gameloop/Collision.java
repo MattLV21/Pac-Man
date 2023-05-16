@@ -10,6 +10,19 @@ public class Collision {
                 o.setTag("");
                 o.getSprite().setColor(Color.WHITE);
                 App.points += 10;
+                boolean found = false;
+                for(int i = 0; i < App.level.getLevel().length; i++) {
+                    for(int j = 0; j < App.level.getLevel()[j].length; j++) {
+                        if (App.level.getLevel()[i][j].tag() == "Coin") {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if(!found) {
+                    App.gameState = "finished";
+                    UI.displayUI();
+                }
             }
             if(o.tag() == "Power") {
                 App.gameState = "power";

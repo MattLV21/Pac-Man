@@ -5,17 +5,21 @@ import java.util.ArrayList;
 import javafx.scene.shape.Rectangle;
 
 public class Entity {
-    private Rec sprite;
+    private Sprite sprite;
     private String tag;
     private ArrayList<Component> components = new ArrayList<>();
     private int x, y;
     
-
+    /** 
+     * @param x
+     * @param y
+     */
     public Entity(int x, int y) {
+        this.sprite = new Sprite(this);
         this.x = x;
         this.y = y;
     }
-    public Entity(int x, int y, Rec sprite, String tag) {
+    public Entity(int x, int y, Sprite sprite, String tag) {
         this.x = x;
         this.y = y;
     }
@@ -26,7 +30,7 @@ public class Entity {
     public Rectangle render() {
         return this.sprite.render();
     }
-    public Rec getSprite() {
+    public Sprite getSprite() {
         return this.sprite;
     }
     public String tag() {
@@ -45,21 +49,21 @@ public class Entity {
         return pos;
     }
     public int getX() {
-        return x;
+        return this.x;
     }
     public void setX(int x) {
         this.x = x;
         sprite.update();
     }
     public int getY() {
-        return y;
+        return this.y;
     }
     public void setY(int y) {
         this.y = y;
         sprite.update();
     }
-    public void setSprite(Rec rec) {
-        this.sprite = rec;
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
     public ArrayList<Component> components() {
         return components;

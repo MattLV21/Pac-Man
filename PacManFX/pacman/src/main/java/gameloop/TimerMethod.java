@@ -19,6 +19,10 @@ class TimerMethod extends AnimationTimer {
         App.livesLabel.setText(""+App.lives+" Lives");
         App.stateLabel.setText(App.gameState);
 
+        if(UI.paused) {
+            stop();
+        }
+
         if(App.gameState == "immortal" && stateDelay == 0) {
             stateDelay = deltaTime + 500;
         }

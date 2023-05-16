@@ -19,6 +19,11 @@ public class EventHandler {
             } else if(key.getCode() == KeyCode.D && objs[1].tag() != "Wall") {
                 App.dia = 'D';
             }
+
+            if(key.getCode() == KeyCode.B) {
+                UI.displayUI();
+            }
+
         });
     }
 }

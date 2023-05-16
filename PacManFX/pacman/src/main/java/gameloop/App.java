@@ -3,7 +3,7 @@ package gameloop;
 import java.util.ArrayList;
 
 import components.Entity;
-import components.Rec;
+import components.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -28,6 +28,7 @@ public class App extends Application {
     public static ArrayList<Entity> ghosts = new ArrayList<>();
 
     public static Scene scene;
+    public static Group root;
     public static AnimationTimer update;
 
     public static String gameState = "normal";
@@ -40,10 +41,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        player.setSprite(new Rec(player, size));
+        player.setSprite(new Sprite(player, size));
         player.setTag("Player");
 
-        ghost1.setSprite(new Rec(ghost1, size));
+        ghost1.setSprite(new Sprite(ghost1, size));
         ghost1.setTag("Player");
 
         ghosts.add(ghost1);
@@ -51,7 +52,8 @@ public class App extends Application {
         level = new levelHandler(size);
         level.fillLevel();
         
-        Group root = new Group();
+        root = new Group();
+        
 
         for(int i = 0; i < level.getLevel().length; i++) {
             for(int j = 0; j < level.getLevel()[j].length; j++) {
@@ -67,17 +69,20 @@ public class App extends Application {
         root.getChildren().add(stateLabel);
 
 
-        update = new TimerMethod();
-        
         scene = new Scene(root, size*level.getLevel()[0].length,
         size*level.getLevel().length+offsetTop+offsetBottom, Color.BLACK);
 
+        UI.load();
+        update = new TimerMethod();
+
+        
+
         EventHandler.addMyEvents();
-        pointLabel.setTranslateX((scene.getWidth()/2)-(pointLabel.getWidth()));
+        pointLabel.setFont(new Font("Arial", 30));
+        pointLabel.setTranslateX((scene.getWidth()/2));
         pointLabel.setTranslateY(0);
         pointLabel.setTextFill(Color.WHITE);
-        pointLabel.setFont(new Font("Arial", 30));
-        
+
         livesLabel.setTranslateX(0);
         livesLabel.setTranslateY(offsetTop/2);
         livesLabel.setTextFill(Color.WHITE);
