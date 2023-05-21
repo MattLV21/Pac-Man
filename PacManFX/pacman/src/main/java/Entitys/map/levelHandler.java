@@ -1,4 +1,4 @@
-package map;
+package Entitys.map;
 
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
@@ -22,7 +22,7 @@ public class levelHandler {
 
     public levelHandler(int size) {
         try {
-            File myObj = new File("src/main/java/map/level.txt");
+            File myObj = new File("src/main/java/Entitys/map/level.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 data.add(myReader.nextLine());
@@ -33,7 +33,7 @@ public class levelHandler {
             myReader.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred, loading the level!");
             e.printStackTrace();
         } 
     }

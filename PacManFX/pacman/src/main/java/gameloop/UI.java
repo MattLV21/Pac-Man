@@ -16,8 +16,12 @@ public class UI {
     public static void load() {
         startButton.setText("Press Start to play!");
         startButton.setOnAction(e -> {
-            App.update.start();
-            hideUI();
+            if(App.lives <= 0) {
+                App.data.reload();
+            } else {
+                App.update.start();
+                hideUI();
+            }
         });
         startButton.setTranslateX(App.scene.getWidth()/2);
         startButton.setTranslateY(App.scene.getHeight()/1.5);
@@ -38,6 +42,14 @@ public class UI {
 
         hideUI();
     }
+
+    public static Button getStartButton() {
+        return startButton;
+    }
+    public static Label getstartLabel() {
+        return startLabel;
+    }
+
 
     public static void displayUI() {
         paused = true;

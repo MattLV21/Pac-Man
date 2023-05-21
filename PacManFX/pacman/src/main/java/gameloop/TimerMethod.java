@@ -2,18 +2,21 @@ package gameloop;
 
 
 import java.util.Arrays;
+
+import Entitys.ghosts.Ghost;
 import components.Entity;
 import javafx.animation.AnimationTimer;
 
 class TimerMethod extends AnimationTimer {
     private long lastTime = System.nanoTime();
     private int delay = 100;
-    private int stateDelay = 0;
+    private static int stateDelay = 0;
+    private static int deltaTime;
     @Override
     public void handle(long now) {
 
         long time = System.nanoTime();
-        int deltaTime = (int) ((time - lastTime) / 1000000);
+        deltaTime = (int) ((time - lastTime) / 1000000);
 
         App.pointLabel.setText(""+App.points+" Points");
         App.livesLabel.setText(""+App.lives+" Lives");
@@ -22,42 +25,46 @@ class TimerMethod extends AnimationTimer {
         if(UI.paused) {
             stop();
         }
+        if(App.lives <= 0) {
+            App.gameState = "finished";
+            UI.displayUI();
+        }
 
-        if(App.gameState == "immortal" && stateDelay == 0) {
-            stateDelay = deltaTime + 500;
-        }
-        if(App.gameState == "power" && stateDelay == 0) {
-            stateDelay = deltaTime + 5000;
-        }
         if(deltaTime > stateDelay) {
             App.gameState = "normal";
             stateDelay = 0;
         }
 
-
         if (deltaTime > delay) {
-            Entity[] objs = App.level.nextTo(App.level.scaleValueX(App.player.getX()),
-            App.level.scaleValueY(App.player.getY()));
-            Entity pos = App.level.position(App.level.scaleValueX(App.player.getX()),
-            App.level.scaleValueY(App.player.getY()));
+            Entity[] objs = App.data.getLevel().nextTo(App.data.getLevel().scaleValueX(App.data.getPacMan().getEntity().getX()),
+                                            App.data.getLevel().scaleValueY(App.data.getPacMan().getEntity().getY()));
+            Entity pos = App.data.getLevel().position(App.data.getLevel().scaleValueX(App.data.getPacMan().getEntity().getX()),
+                                            App.data.getLevel().scaleValueY(App.data.getPacMan().getEntity().getY()));
 
-            Collision.onCollisionEnter(App.player, pos);
-            for(int i = 0; i < App.ghosts.size(); i++) {
-                if(Arrays.compare(App.player.getPos(), App.ghosts.get(i).getPos()) == 0) {
-                    Collision.onCollisionEnter(App.player, App.ghosts.get(i));
+            Collision.onCollisionEnter(App.data.getPacMan().getEntity(), pos);
+            for(int i = 0; i < App.data.getGhosts().size(); i++) {
+                Ghost ghost = App.data.getGhosts().get(i);
+                Entity[] nextToGhost = App.data.getLevel().nextTo(App.data.getLevel().scaleValueX(ghost.getEntity().getX()), 
+                                                        App.data.getLevel().scaleValueY(ghost.getEntity().getY()));
+                ghost.update(nextToGhost);
+                ghost.movement(nextToGhost);
+                if(Arrays.compare(App.data.getPacMan().getEntity().getPos(), ghost.getEntity().getPos()) == 0) {
+                    Collision.onCollisionEnter(App.data.getPacMan().getEntity(), ghost.getEntity());
                 }
             }
 
-            if(App.dia == 'W' && objs[0].tag() != "Wall") {
-                App.player.setY(App.player.getY()-App.size);
-            } else if(App.dia == 'S' && objs[2].tag() != "Wall") {
-                App.player.setY(App.player.getY()+App.size);
-            } else if(App.dia == 'A' && objs[3].tag() != "Wall") {
-                App.player.setX(App.player.getX()-App.size);
-            } else if(App.dia == 'D' && objs[1].tag() != "Wall") {
-                App.player.setX(App.player.getX()+App.size);
-            }
+            App.data.getPacMan().update(objs);
+
             delay = deltaTime + 100;
         }
     }
+
+    public static void addStateDelay() {
+        if(App.gameState == "immortal") {
+            stateDelay = deltaTime + 500;
+        }
+        if(App.gameState == "power") {
+            stateDelay = deltaTime + 5000;
+        }
+    } 
 }

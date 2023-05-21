@@ -20,13 +20,14 @@ public class Entity {
         this.y = y;
     }
     public Entity(int x, int y, Sprite sprite, String tag) {
+        this.sprite = sprite;
+        this.tag = tag;
         this.x = x;
         this.y = y;
     }
     public void addComponent(Component com) {
         components.add(com);
     }
-
     public Rectangle render() {
         return this.sprite.render();
     }
@@ -64,6 +65,9 @@ public class Entity {
     }
     public void setSprite(Sprite sprite) {
         this.sprite = sprite;
+    }
+    public void update() {
+        this.sprite.update();
     }
     public ArrayList<Component> components() {
         return components;

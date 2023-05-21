@@ -1,9 +1,5 @@
 package gameloop;
 
-import java.util.ArrayList;
-
-import components.Entity;
-import components.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -12,20 +8,14 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import map.levelHandler;
  
 public class App extends Application {
 
     public static int size = 16;
     public static int offsetTop = 50;
     public static int offsetBottom = 50;
-    public static levelHandler level;
 
-    public static char dia = ' ';
-    public static Entity player = new Entity(size, size+offsetTop);
-    public static Entity ghost1 = new Entity(0, 150+offsetTop);
-
-    public static ArrayList<Entity> ghosts = new ArrayList<>();
+    public static LoadGameData data;
 
     public static Scene scene;
     public static Group root;
@@ -41,43 +31,30 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        player.setSprite(new Sprite(player, size));
-        player.setTag("Player");
-
-        ghost1.setSprite(new Sprite(ghost1, size));
-        ghost1.setTag("Player");
-
-        ghosts.add(ghost1);
-
-        level = new levelHandler(size);
-        level.fillLevel();
-        
         root = new Group();
-        
-
-        for(int i = 0; i < level.getLevel().length; i++) {
-            for(int j = 0; j < level.getLevel()[j].length; j++) {
-                root.getChildren().add(level.getLevel()[i][j].render());
-            }
-        }
-        root.getChildren().add(player.render());
-        // ghosts.add(ghost);
-        // root.getChildren().add(ghost);
+        data = new LoadGameData(size);
+        data.render();
         
         root.getChildren().add(pointLabel);
         root.getChildren().add(livesLabel);
         root.getChildren().add(stateLabel);
 
-
-        scene = new Scene(root, size*level.getLevel()[0].length,
-        size*level.getLevel().length+offsetTop+offsetBottom, Color.BLACK);
+        scene = new Scene(App.root, size*data.getLevel().getLevel()[0].length,
+        size*data.getLevel().getLevel().length+App.offsetTop+App.offsetBottom, Color.BLACK);
 
         UI.load();
         update = new TimerMethod();
 
-        
-
         EventHandler.addMyEvents();
+        transfromUI();
+
+        update.start();
+        primaryStage.setTitle("Pac-Man");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void transfromUI () {
         pointLabel.setFont(new Font("Arial", 30));
         pointLabel.setTranslateX((scene.getWidth()/2));
         pointLabel.setTranslateY(0);
@@ -92,11 +69,6 @@ public class App extends Application {
         stateLabel.setTranslateY(scene.getHeight()-offsetBottom);
         stateLabel.setTextFill(Color.WHITE);
         stateLabel.setFont(new Font("Arial", 30));
-
-        update.start();
-        primaryStage.setTitle("Pac-Man");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     public static void main(String[] args) {

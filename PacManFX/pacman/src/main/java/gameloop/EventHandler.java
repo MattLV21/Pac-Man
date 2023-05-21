@@ -7,17 +7,17 @@ import javafx.scene.input.KeyEvent;
 public class EventHandler {
     public static void addMyEvents() {
         App.scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            Entity[] objs = App.level.nextTo(App.level.scaleValueX(App.player.getX()),
-            App.level.scaleValueY(App.player.getY()));
+            Entity[] objs = App.data.getLevel().nextTo(App.data.getLevel().scaleValueX(App.data.getPacMan().getEntity().getX()),
+            App.data.getLevel().scaleValueY(App.data.getPacMan().getEntity().getY()));
 
             if(key.getCode() == KeyCode.W && objs[0].tag() != "Wall") {
-                App.dia = 'W';
+                App.data.getPacMan().setDirection('W');
             } else if(key.getCode() == KeyCode.S && objs[2].tag() != "Wall") {
-                App.dia = 'S';
+                App.data.getPacMan().setDirection('S');
             } else if(key.getCode() == KeyCode.A && objs[3].tag() != "Wall") {
-                App.dia = 'A';
+                App.data.getPacMan().setDirection('A');
             } else if(key.getCode() == KeyCode.D && objs[1].tag() != "Wall") {
-                App.dia = 'D';
+                App.data.getPacMan().setDirection('D');
             }
 
             if(key.getCode() == KeyCode.B) {
