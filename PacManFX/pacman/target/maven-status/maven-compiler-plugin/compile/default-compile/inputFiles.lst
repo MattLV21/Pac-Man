@@ -4,7 +4,7 @@
 /Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/Entitys/pacman/PacMan.java
 /Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/Entitys/ghosts/Ghost.java
 /Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/gameloop/Collision.java
-/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/gameloop/TimerMethod.java
+/Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/gameloop/Updater.java
 /Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/gameloop/EventHandler.java
 /Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/Entitys/ghosts/AI.java
 /Users/mattlv21/Documents/Coding/Java/Pac-Man/PacManFX/pacman/src/main/java/components/Entity.java

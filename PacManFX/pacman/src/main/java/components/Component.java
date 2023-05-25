@@ -5,4 +5,8 @@ public interface Component {
      * @return parent of {@code Component}
      */
     public Entity parent();
+    /**
+     * Updates the Component
+     */
+    public void update();
 }

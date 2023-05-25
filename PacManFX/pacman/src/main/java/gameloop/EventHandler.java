@@ -5,6 +5,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class EventHandler {
+    /**
+     * Adds an event handler to the mean scene
+     */
     public static void addMyEvents() {
         App.scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             Entity[] objs = App.data.getLevel().nextTo(App.data.getLevel().scaleValueX(App.data.getPacMan().getEntity().getX()),

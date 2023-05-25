@@ -6,21 +6,10 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class Sprite implements Component {
-    /**
-     *  The {@code Entity} that this Component is atacted on
-     */
+
     private Entity parent;
-    /**
-     *  A {@code Rectangle} object from JavaFX
-     */
     private Rectangle sprite;
-    /**
-     *  Offset on the x axis pivoted on parent
-     */
     private double offsetX;
-    /**
-     *  Offset on the y axis pivoted on parent
-     */
     private double offsetY;
 
     public Sprite() {
@@ -61,20 +50,6 @@ public class Sprite implements Component {
         this.sprite = new Rectangle(parent.getX(), parent.getY(), size, size);
         this.offsetX = 0;
         this.offsetY = 0;
-    }
-    /** Creates a new instance of a Sprite with given parent and size and offset
-     * @param parent parent Entity of Component
-     * @param path path to Image
-     * @param size size if Sprite
-     * @param offsetX offset on x axis
-     * @param offsetY offset on y axis
-     */
-    public Sprite(Entity parent, String path, int size, double offsetX, double offsetY) {
-        this.parent = parent;
-        this.sprite = new Rectangle(parent.getX(), parent.getY(), size, size);
-        this.sprite.setFill(new ImagePattern(new Image("/"+path)));
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
     }
     @Override
     public Entity parent() {

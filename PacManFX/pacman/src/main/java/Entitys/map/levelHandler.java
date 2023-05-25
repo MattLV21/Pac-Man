@@ -17,9 +17,11 @@ public class levelHandler {
     private Entity[][] level;
     private static char[] _egdeCase = {'#', '#', '#', '#'};
     private static List<String> data = new ArrayList<>();
-
     private int size;
 
+    /** Creates an levelHandler object
+     * @param size the grid size
+     */
     public levelHandler(int size) {
         try {
             File myObj = new File("src/main/java/Entitys/map/level.txt");
@@ -38,6 +40,9 @@ public class levelHandler {
         } 
     }
 
+    /** Fills the level with Entitys
+     * 
+     */
     public void fillLevel() {
         for (int y = 0; y < data.size(); y++) {
             for (int x = 0; x < data.get(y).length()*2; x++) {
@@ -46,6 +51,11 @@ public class levelHandler {
         }
     }
 
+    /** Returns the speifc type of Entity in given position
+     * @param x x position
+     * @param y y position
+     * @return Entity
+     */
     private Entity getEntityType(int x, int y) {
         char current = data.get(y).charAt(loopingX(x));
         
@@ -77,6 +87,11 @@ public class levelHandler {
         return entity;
     }
 
+    /** Gets what should be next to given position
+     * @param x x position
+     * @param y y position
+     * @return array of char
+     */
     private char[] bordering(int x, int y) {
         char[] bordering = new char[4];
         if(x > 0) {
@@ -108,6 +123,10 @@ public class levelHandler {
         return egdes;
     }
 
+    /** loops the x value back on it self
+     * @param x
+     * @return int
+     */
     private static int loopingX(int x) {
         if (x > data.get(0).length()-1) {
             return data.get(0).length()-1 - (x%data.get(0).length());
@@ -116,17 +135,35 @@ public class levelHandler {
         }
     }
 
+    /** Scale a X value from world view to level grid
+     * @param x x world view
+     * @return x grid view
+     */
     public int scaleValueX(double x) {
         return (int) x/(size);
     }
+    /** Scales a Y value from world view to level grid
+     * @param y y world view
+     * @return y grid view
+     */
     public int scaleValueY(double y) {
         return (int) (y-App.offsetTop)/size;
     }
 
+    /** Gets the Entity from position x and y using grid view
+     * @param x position
+     * @param y position
+     * @return Entity
+     */
     public Entity position(int x, int y) {
         return this.level[y][x];
     }
 
+    /** Gets the Entitys next to position x and y using grid view
+     * @param x position
+     * @param y position
+     * @return Entitys[]
+     */
     public Entity[] nextTo(int x, int y) {
         Entity[] objs = new Entity[4];
 
@@ -146,6 +183,9 @@ public class levelHandler {
         return objs;
     }
 
+    /** Returns the 2D array of Entitys
+     * @return Entity[][]
+     */
     public Entity[][] getLevel() {
         return this.level;
     }

@@ -43,7 +43,7 @@ public class App extends Application {
         size*data.getLevel().getLevel().length+App.offsetTop+App.offsetBottom, Color.BLACK);
 
         UI.load();
-        update = new TimerMethod();
+        update = new Updater();
 
         EventHandler.addMyEvents();
         transfromUI();
@@ -54,6 +54,9 @@ public class App extends Application {
         primaryStage.show();
     }
 
+    /** Sets the Font, Position and Color of the labels used
+     * 
+     */
     public static void transfromUI () {
         pointLabel.setFont(new Font("Arial", 30));
         pointLabel.setTranslateX((scene.getWidth()/2));

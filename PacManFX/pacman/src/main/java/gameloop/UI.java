@@ -13,6 +13,9 @@ public class UI {
     
     protected static boolean paused = false;
 
+    /**
+     * Creates and loads pause/finshed UI
+     */
     public static void load() {
         startButton.setText("Press Start to play!");
         startButton.setOnAction(e -> {
@@ -43,14 +46,24 @@ public class UI {
         hideUI();
     }
 
+    /** Get the UI Button
+     * @return Button
+     */
     public static Button getStartButton() {
         return startButton;
     }
+    /** Get the UI Label
+     * @return Label
+     */
     public static Label getstartLabel() {
         return startLabel;
     }
 
 
+    /**
+     * Sets all UI objects to visable
+     * Updates startLabel text
+     */
     public static void displayUI() {
         paused = true;
         startLabel.setText(App.pointLabel.getText());
@@ -60,6 +73,9 @@ public class UI {
         background.getSprite().setVisible(true);
     }
 
+    /**
+     * Sets all UI objects to not visable
+     */
     public static void hideUI() {
         paused = false;
         startButton.setVisible(false);

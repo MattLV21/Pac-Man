@@ -7,14 +7,13 @@ import Entitys.ghosts.Ghost;
 import components.Entity;
 import javafx.animation.AnimationTimer;
 
-class TimerMethod extends AnimationTimer {
+class Updater extends AnimationTimer {
     private long lastTime = System.nanoTime();
     private int delay = 100;
     private static int stateDelay = 0;
     private static int deltaTime;
     @Override
     public void handle(long now) {
-
         long time = System.nanoTime();
         deltaTime = (int) ((time - lastTime) / 1000000);
 
@@ -47,7 +46,6 @@ class TimerMethod extends AnimationTimer {
                 Entity[] nextToGhost = App.data.getLevel().nextTo(App.data.getLevel().scaleValueX(ghost.getEntity().getX()), 
                                                         App.data.getLevel().scaleValueY(ghost.getEntity().getY()));
                 ghost.update(nextToGhost);
-                ghost.movement(nextToGhost);
                 if(Arrays.compare(App.data.getPacMan().getEntity().getPos(), ghost.getEntity().getPos()) == 0) {
                     Collision.onCollisionEnter(App.data.getPacMan().getEntity(), ghost.getEntity());
                 }
@@ -59,6 +57,9 @@ class TimerMethod extends AnimationTimer {
         }
     }
 
+    /**
+     * adds an delay when called depending on the current game state
+     */
     public static void addStateDelay() {
         if(App.gameState == "immortal") {
             stateDelay = deltaTime + 500;

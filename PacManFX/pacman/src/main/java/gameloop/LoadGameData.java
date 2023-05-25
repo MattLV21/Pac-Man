@@ -14,39 +14,59 @@ public class LoadGameData {
     private ArrayList<Ghost> ghosts;
     private int size;
 
+    /** Creates an new LoadGameData object
+     * @param size of grid
+     */
     public LoadGameData(int size) {
         this.size = size;
         loadAll();
     }
 
+    /** Creates an new levelHandler object
+     * @return levelHandler
+     */
     private levelHandler loadLevel() {
         levelHandler newLevel = new levelHandler(size);
         newLevel.fillLevel();
         return newLevel;
     }
+    /** Creates an new PacMan object
+     * @return PacMan
+     */
     private PacMan loadPlayer() {
         PacMan player = new PacMan(size, size+App.offsetTop, size);
         player.getEntity().setSprite(new Sprite(player.getEntity(), size));
         return player;
     }
+    /** Creates four new Ghote objects
+     * @return ArrayList Ghost
+     */
     private ArrayList<Ghost> loadGhosts() {
         ArrayList<Ghost> ghosts = new ArrayList<Ghost>();
-        Ghost ghost1 = new Ghost(size, size*28+App.offsetTop,
+        Ghost ghost1 = new Ghost(0, 0,
                             new Sprite(), new PursueAI(), new AvoidAI(), size);
         ghosts.add(ghost1);
-        Ghost ghost2 = new Ghost(size*25, size*29+App.offsetTop,
+        Ghost ghost2 = new Ghost(0, 0,
                             new Sprite(), new PursueAI(), new AvoidAI(), size);
         ghosts.add(ghost2);
-        Ghost ghost3 = new Ghost(size*25, size+App.offsetTop,
+        Ghost ghost3 = new Ghost(0, 0,
                             new Sprite(), new PursueAI(), new AvoidAI(), size);
         ghosts.add(ghost3);
-        Ghost ghost4 = new Ghost(size*15, size*28+App.offsetTop,
+        Ghost ghost4 = new Ghost(0, 0,
                             new Sprite(), new PursueAI(), new AvoidAI(), size);
         ghosts.add(ghost4);
+
+        for (int i = 0; i < ghosts.size(); i++) {
+            ghosts.get(i).setTarget(pacMan.getEntity());
+            ghosts.get(i).getEntity().setPos(size+(size*8*i), size*29+App.offsetTop);
+        }
 
         return ghosts;
     }
 
+    /**
+     * Adds all objects to the {@code Group} root 
+     */
     public void render() {
         for(int i = 0; i < this.level.getLevel().length; i++) {
             for(int j = 0; j < this.level.getLevel()[j].length; j++) {
@@ -59,12 +79,18 @@ public class LoadGameData {
         }
     }
 
+    /**
+     * Sets all Entitys used
+     */
     public void loadAll() {
         this.pacMan = loadPlayer();
         this.level = loadLevel();
         this.ghosts = loadGhosts();
     }
 
+    /**
+     * Resets all objects to the default position
+     */
     public void reload() {
         this.pacMan.getEntity().setPos(size, size+App.offsetTop);
         this.pacMan.setDirection(' ');
@@ -92,12 +118,21 @@ public class LoadGameData {
         App.lives = 3;
     }
 
+    /** Returns the levelHandler object
+     * @return levelHandler
+     */
     public levelHandler getLevel() {
         return level;
     }
+    /** Returns the PacMan object
+     * @return PacMan
+     */
     public PacMan getPacMan() {
         return pacMan;
     }
+    /** Returns an ArrayList of all Ghost objects
+     * @return ArrayList Ghost
+     */
     public ArrayList<Ghost> getGhosts() {
         return ghosts;
     }
