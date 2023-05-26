@@ -66,8 +66,8 @@ public class Sprite implements Component {
      * 
      */
     public void update() {
-        sprite.setX(parent.getX());
-        sprite.setY(parent.getY());
+        sprite.setX(parent.getX() + this.offsetX);
+        sprite.setY(parent.getY() + this.offsetY);
     }
     /** Sets the color of {@code Sprite}
      * @param color new Color
