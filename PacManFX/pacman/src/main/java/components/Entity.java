@@ -45,8 +45,15 @@ public class Entity {
     }
     /**
      * @return The first Sprite of the Entity
+     * if no Sprite return null
      */
     public Sprite getSprite() {
+        // for (int i = 0; i < this.components.size(); i++) {
+        //     if (tihs.components.get(i) isinstensof Sprite) {
+        //          return this.components.get(i).cast(Sprite);
+        //     }
+        // }
+        // return null;
         return this.sprite;
     }
     /**
@@ -113,6 +120,9 @@ public class Entity {
      * Updates the position to match in Sprite Component
      */
     public void update() {
+        // for (int i = 0; i < this.components.size(); i++) {
+        //     this.components.get(i).update();
+        // }
         this.sprite.update();
     }
     /** Returns a list of all components
